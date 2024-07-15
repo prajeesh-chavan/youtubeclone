@@ -11,3 +11,9 @@ export const value_converter = (value) =>{
         return value;
     }
 }
+
+export const fetchYouTubeData = async (query) => {
+    const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&maxResults=25&key=${API_KEY}`);
+    const data = await response.json();
+    return data.items;
+  };
