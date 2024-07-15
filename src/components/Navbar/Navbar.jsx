@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import menu_icon from "../../assets/icons/hamburger-menu.svg";
 import logo from "../../assets/icons/youtube-logo.svg";
 import search_icon from "../../assets/icons/search.svg";
 import upload_icon from "../../assets/icons/upload.svg";
 import notification_icon from "../../assets/icons/notifications.svg";
 import profile_icon from "../../assets/jack.png";
-import { Link } from "react-router-dom";
 
-function Navbar({ setSidebar }) {
+function Navbar({ setSidebar, onSearch }) {
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSearch = () => {
+    if (query !== "") {
+      onSearch(query);
+      navigate("/Search-Result");
+    }
+  };
+
   return (
     <nav className="bg-white h-16 pt-1 flex justify-between sticky top-0 z-50">
       <div className="flex items-center">
@@ -25,6 +39,8 @@ function Navbar({ setSidebar }) {
         <div className="flex items-center w-full">
           <input
             type="text"
+            value={query}
+            onChange={handleInputChange}
             placeholder="Search"
             className="flex-1 h-9 pl-3 text-base border border-gray-400 rounded-l-full focus:outline-none"
           />
@@ -32,12 +48,17 @@ function Navbar({ setSidebar }) {
             src={search_icon}
             alt="search icon"
             className="h-9 w-16 bg-gray-50 border border-gray-400 rounded-r-full p-1 -ml-1 hover:bg-gray-200 cursor-pointer"
+            onClick={handleSearch}
           />
         </div>
       </div>
       <div className="flex items-center mr-6 space-x-4">
         <button className="h-10 w-10 rounded-full hover:bg-gray-200 flex items-center justify-center">
-          <img src={upload_icon} className="h-6 cursor-pointer" alt="upload icon" />
+          <img
+            src={upload_icon}
+            className="h-6 cursor-pointer"
+            alt="upload icon"
+          />
         </button>
         <button className="h-10 w-10 rounded-full hover:bg-gray-200 flex items-center justify-center relative">
           <img
